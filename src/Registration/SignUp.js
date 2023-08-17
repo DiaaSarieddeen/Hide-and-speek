@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, provider} from '../firebase';
+import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth';
 import './Signup.css';
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-
+    const signInWithGoogle = async () => {
+        try {
+        await signInWithPopup(auth,provider);
+        } catch (err){
+          console.error(err);
+        }
+      };
 
     const Register = (event) => {
         event.preventDefault();
@@ -77,7 +83,11 @@ const SignUp = () => {
 
 
                             <button type="submit" id="submitButton">Sign up</button>
+
                         </form>
+                        <div>
+                        <button onClick={signInWithGoogle}> Signin with google</button>
+                        </div>
                     </div>
                 </div>
             </div>
