@@ -8,7 +8,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const signInWithGoogle = async () => {
+    const signUpWithGoogle = async () => {
         try {
         await signInWithPopup(auth,provider);
         } catch (err){
@@ -64,6 +64,9 @@ const SignUp = () => {
                     </div>
 
                     <div className="flip-card-back">
+                    <div>
+                        <button onClick={signUpWithGoogle}> SignUp with google</button>
+                        </div>
                         <form onSubmit={Register} method="POST">
                             <div className="labels">
                                 <p>Email:</p>
@@ -85,9 +88,6 @@ const SignUp = () => {
                             <button type="submit" id="submitButton">Sign up</button>
 
                         </form>
-                        <div>
-                        <button onClick={signInWithGoogle}> Signin with google</button>
-                        </div>
                     </div>
                 </div>
             </div>

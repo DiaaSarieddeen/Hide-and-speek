@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth,provider } from '../firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import './SignIn.css';
@@ -10,6 +10,15 @@ const SignIn = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const signInWithGoogle = async () => {
+        try {
+        await signInWithPopup(auth,provider);
+        } catch (err){
+          console.error(err);
+        }
+      };
+
 
     const onChangeEmail = (event) => {
         setEmail(event.target.value);
@@ -63,8 +72,10 @@ const SignIn = () => {
                                 </div>
                             </form>
                         </div>
+                        <div>
+                        <button onClick={signInWithGoogle}> SignIn with google</button>
                     </div>
-
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import SignIn from './Authentication/SignIn';
 import SignUp from './Registration/SignUp';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 function App() {
