@@ -8,13 +8,16 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const signUpWithGoogle = async () => {
-        try {
-        await signInWithPopup(auth,provider);
-        } catch (err){
-          console.error(err);
-        }
-      };
+    const signUpWithGoogle = () => {
+        signInWithPopup(auth,provider)
+        .then((result)=>{
+            const name= result.user.displayName
+            const email=result.user.email
+            const profile=result.user.photoURL
+        })
+        .catch((error)=>{
+          console.log(error)});
+      }
 
     const Register = (event) => {
         event.preventDefault();
@@ -64,9 +67,6 @@ const SignUp = () => {
                     </div>
 
                     <div className="flip-card-back">
-                    <div>
-                        <button onClick={signUpWithGoogle}> SignUp with google</button>
-                        </div>
                         <form onSubmit={Register} method="POST">
                             <div className="labels">
                                 <p>Email:</p>
@@ -88,6 +88,9 @@ const SignUp = () => {
                             <button type="submit" id="submitButton">Sign up</button>
 
                         </form>
+                        <div>
+                        <button onClick={signUpWithGoogle}> Sign Up with Google</button>
+                        </div>
                     </div>
                 </div>
             </div>

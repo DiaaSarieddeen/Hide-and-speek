@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { auth,provider } from '../firebase';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth ,provider} from '../firebase';
+import { signInWithEmailAndPassword ,signInWithPopup} from 'firebase/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import './SignIn.css';
@@ -10,14 +10,21 @@ const SignIn = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    const signInWithGoogle = () => {
+        signInWithPopup(auth,provider)
+        .then((result)=>{
+        const name= result.user.displayName
+        const email=result.user.email
+        const profile=result.user.photoURL
+        localStorage.setItem("name",name)
+        localStorage.setItem("wmail",email)
+        localStorage.setItem("profile",profile)
+    })
+        .catch((error)=>{
+          console.log(error)});
+      }
 
-    const signInWithGoogle = async () => {
-        try {
-        await signInWithPopup(auth,provider);
-        } catch (err){
-          console.error(err);
-        }
-      };
 
 
     const onChangeEmail = (event) => {
@@ -71,11 +78,10 @@ const SignIn = () => {
                                     </div>
                                 </div>
                             </form>
+                            <div><button onClick={signInWithGoogle}> Sign In with Google</button></div>
                         </div>
-                        <div>
-                        <button onClick={signInWithGoogle}> SignIn with google</button>
                     </div>
-                    </div>
+
                 </div>
             </div>
         </div>
