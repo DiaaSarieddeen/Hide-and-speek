@@ -1,5 +1,8 @@
 import SignIn from './Authentication/SignIn';
 import SignUp from './Registration/SignUp';
+import {signInWithGoogle} from './Authentication/SignInWithGoogle';
+
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
@@ -7,13 +10,9 @@ function App() {
   return (
     <div className="App" >
       <div>
-        <SignIn />
+        <SignIn/>
       </div>
-      <div>
-      <h1>{localStorage.getItem("name")}</h1>
-      <h1>{localStorage.getItem("email")}</h1>
-      <img src={localStorage.getItem("profile")}/>
-      </div>
+      <button onClick={signInWithGoogle}>Sign with Google</button>
       <div>
         <SignUp />
       </div>

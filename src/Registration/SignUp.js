@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { auth, provider} from '../firebase';
 import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+  } from "react-router-dom";
 import './Signup.css';
+
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const signUpWithGoogle = () => {
-        signInWithPopup(auth,provider)
-        .then((result)=>{
-            const name= result.user.displayName
-            const email=result.user.email
-            const profile=result.user.photoURL
-        })
-        .catch((error)=>{
-          console.log(error)});
-      }
 
     const Register = (event) => {
         event.preventDefault();
@@ -88,9 +85,6 @@ const SignUp = () => {
                             <button type="submit" id="submitButton">Sign up</button>
 
                         </form>
-                        <div>
-                        <button onClick={signUpWithGoogle}> Sign Up with Google</button>
-                        </div>
                     </div>
                 </div>
             </div>
