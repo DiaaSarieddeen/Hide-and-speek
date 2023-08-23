@@ -1,9 +1,7 @@
-import React from 'react';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
-import { useHistory } from 'react-router-dom';
 
-export const signInWithGoogle = () => {
+export const signInWithGoogle = (navigate) => {
   signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result);
@@ -14,8 +12,8 @@ export const signInWithGoogle = () => {
       localStorage.setItem('name', name);
       localStorage.setItem('email', email);
       localStorage.setItem('profilePic', profilePic);
-
-      window.location.href = '../Chat/Chat.js'; // Redirect to "/Chat" page
+      
+      navigate("/chat"); // Redirect to "/Chat" page
     })
     .catch((error) => {
       console.log(error);

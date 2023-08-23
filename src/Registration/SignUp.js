@@ -8,6 +8,7 @@ import {
     Switch,
     Route,
     Redirect,
+    useNavigate,
   } from "react-router-dom";
 import './Signup.css';
 
@@ -89,6 +90,7 @@ const SignUp = () => {
                 </div>
             </div>
         </>
+        
     );
 }
 
