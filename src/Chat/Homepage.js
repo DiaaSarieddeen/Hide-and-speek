@@ -65,22 +65,27 @@ export const Homepage = () => {
     fetchUsers(); // Call the function to fetch users when the component mounts
   }, []); // Run this effect only once when the component mounts
 
-  // Function to handle the submission of a new message
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (newMessage.trim() === "") return; // If the message is empty, do nothing
-
-    // Add a new message document to the 'messages' collection
-    await addDoc(messagesRef, {
-      text: newMessage,
-      createdAt: serverTimestamp(), // Use Firestore server timestamp for message creation time
-      user: auth.currentUser.displayName, // Get the current user's display name
-      selectedUser: selectedUser.username, // Associate the message with the selected user
-    });
-
-    setNewMessage(""); // Clear the new message input field
+  
+    if (newMessage.trim() === "") return;
+  
+    // Check if there's a user object and it has a displayName
+    if (auth.currentUser && auth.currentUser.displayName) {
+      await addDoc(messagesRef, {
+        text: newMessage,
+        createdAt: serverTimestamp(),
+        user: auth.currentUser.displayName,
+        selectedUser: selectedUser.username,
+      });
+    } else {
+      // Handle the case where the user is not authenticated or doesn't have a displayName
+      console.error("User is not authenticated or doesn't have a displayName");
+    }
+  
+    setNewMessage("");
   };
+  
 
   // Function to handle starting a chat with a user
   const handleStartChat = (user) => {
