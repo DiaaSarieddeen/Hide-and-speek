@@ -1,6 +1,6 @@
-// Import necessary dependencies from React and Firebase
+
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebase"; // Import Firebase authentication and Firestore database
+import { auth, db } from "../firebase"; 
 import {
   collection,
   addDoc,
@@ -10,46 +10,49 @@ import {
   orderBy,
   getDocs,
   where
-} from "firebase/firestore"; // Import Firestore functions for querying and data manipulation
-import "./Homepage.css"; // Import a CSS file for styling
-import { SearchBar } from "./SearchBar"; // Import a component named SearchBar
+} from "firebase/firestore";
+import "./Homepage.css"; 
+import { SearchBar } from "./SearchBar"; 
 
-// Define a functional component named Homepage
+
 export const Homepage = () => {
-  // Define various pieces of state using the useState hook
-  const [messages, setMessages] = useState([]); // State for chat messages
-  const [newMessage, setNewMessage] = useState(""); // State for the new message input
-  const [selectedUser, setSelectedUser] = useState(JSON.parse(localStorage.getItem("selectedUser"))); // State for the selected user
-  const [users, setUsers] = useState([]); // State for the list of users
 
-  // Reference to the 'messages' collection in Firestore
+  const [messages, setMessages] = useState([]); 
+  const [newMessage, setNewMessage] = useState(""); 
+  const [selectedUser, setSelectedUser] = useState(JSON.parse(localStorage.getItem("selectedUser"))); 
+  const [users,setUsers]=useState([])
+
+ 
   const messagesRef = collection(db, "messages");
 
-  // useEffect hook to subscribe to changes in the 'messages' collection
+  
   useEffect(() => {
     if (!selectedUser) return; // If no user is selected, do nothing
-
-    // Subscribe to changes in the 'messages' collection with specific conditions
-    const unsubscribe = onSnapshot(
-      query(
-        messagesRef,
-        where("selectedUser", "==", selectedUser.username), // Filter messages by selected user
-        orderBy("createdAt") // Order messages by their creation timestamp
-      ),
-      (snapshot) => {
-        // Process the snapshot and update the 'messages' state
-        const messagesData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMessages(messagesData);
-      }
-    );
-
-    return () => unsubscribe(); // Cleanup function to unsubscribe from Firestore changes
+  
+    // Check if auth.currentUser is not null
+    if (auth.currentUser) {
+      const unsubscribe = onSnapshot(
+        query(
+          messagesRef,
+          where("sender", "==", auth.currentUser.displayName), // Filter by the current user 
+          where("receiver", "==", selectedUser.username), // Filter by the selected user 
+          orderBy("createdAt")
+        ),
+        (snapshot) => {
+          // Process the snapshot and update the 'messages' state
+          const messagesData = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setMessages(messagesData);
+        }
+      );
+  
+      return () => unsubscribe(); // Cleanup function to unsubscribe from Firestore changes
+    }
   }, [selectedUser]); // Run this effect when 'selectedUser' changes
+  
 
-  // useEffect hook to fetch a list of users from Firestore
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -62,8 +65,8 @@ export const Homepage = () => {
       }
     };
 
-    fetchUsers(); // Call the function to fetch users when the component mounts
-  }, []); // Run this effect only once when the component mounts
+    fetchUsers(); 
+  }, []); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,51 +74,56 @@ export const Homepage = () => {
     if (newMessage.trim() === "") return;
   
     // Check if there's a user object and it has a displayName
-    if (auth.currentUser && auth.currentUser.displayName) {
+    if (auth.currentUser && auth.currentUser.displayName && selectedUser) {
       await addDoc(messagesRef, {
         text: newMessage,
         createdAt: serverTimestamp(),
-        user: auth.currentUser.displayName,
-        selectedUser: selectedUser.username,
+        sender: auth.currentUser.displayName,
+        receiver: selectedUser.username,
       });
     } else {
       // Handle the case where the user is not authenticated or doesn't have a displayName
       console.error("User is not authenticated or doesn't have a displayName");
+      // You can add further logic here, such as redirecting to a login page
     }
   
     setNewMessage("");
   };
   
+  
+  
+  
 
-  // Function to handle starting a chat with a user
+
   const handleStartChat = (user) => {
-    setSelectedUser(user); // Set the selected user in state
-    localStorage.setItem("selectedUser", JSON.stringify(user)); // Store the selected user in local storage
+    setSelectedUser(user); 
+    localStorage.setItem("selectedUser", JSON.stringify(user)); 
   };
 
-  // Render the user interface
+ 
   return (
     <div className="chat-app">
       <div className="header">
         <h1>Welcome to: {selectedUser ? selectedUser.username : ""}</h1>
       </div>
       {!selectedUser ? (
-        // Render the user list and search bar when no user is selected
+   
         <div>
           <SearchBar handleStartChat={handleStartChat} users={users} />
           <div className="user-list">
-            {users.map((user) => (
-              <div
-                key={user.id}
-                onClick={() => handleStartChat(user)} // Call handleStartChat when a user is clicked
-              >
-                {user.username}
-              </div>
-            ))}
+                    {users.map((user) => (
+            <div
+              key={user.id} // Add a unique key prop here
+              onClick={() => handleStartChat(user)}
+            >
+              {user.username}
+            </div>
+          ))}
+
           </div>
         </div>
       ) : (
-        // Render the chat interface when a user is selected
+
         <div>
           <button onClick={() => setSelectedUser(null)}>Back</button>
           <form onSubmit={handleSubmit}>
@@ -128,12 +136,12 @@ export const Homepage = () => {
             <button type="submit">Send</button>
           </form>
           <div className="messages">
-            {messages.map((message) => (
-              <div key={message.id}>
-                <h4>{message.user}</h4>
-                <p>{message.text}</p>
-              </div>
-            ))}
+                  {messages.map((message) => (
+                    <div key={message.id}>
+                      <h4>{message.user}</h4>
+                      <p>{message.text}</p>
+                    </div>
+                  ))}
           </div>
         </div>
       )}

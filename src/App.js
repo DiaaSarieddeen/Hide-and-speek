@@ -14,7 +14,6 @@ function App() {
         <Routes>
           <Route path="/chat" element={<Chat />} />
           <Route path="/" element={<LoginRegisterGoogle />} />
-          <Route path="/homepage" element={<Chat />} /> 
         </Routes>
       </Router>
     </div>
