@@ -34,8 +34,9 @@ export const Homepage = () => {
       const unsubscribe = onSnapshot(
         query(
           messagesRef,
-          where("sender", "==", auth.currentUser.displayName), // Filter by the current user 
-          where("receiver", "==", selectedUser.username), // Filter by the selected user 
+          // Filter by both sender and receiver
+          where("sender", "in", [auth.currentUser.displayName, selectedUser.username]),
+          where("receiver", "in", [auth.currentUser.displayName, selectedUser.username]),
           orderBy("createdAt")
         ),
         (snapshot) => {
@@ -136,12 +137,12 @@ export const Homepage = () => {
             <button type="submit">Send</button>
           </form>
           <div className="messages">
-                  {messages.map((message) => (
-                    <div key={message.id}>
-                      <h4>{message.user}</h4>
-                      <p>{message.text}</p>
-                    </div>
-                  ))}
+          {messages.map((message) => (
+            <div key={message.id}>
+              <h4>{message.sender === auth.currentUser.displayName ? 'You' : message.sender}</h4>
+              <p>{message.text}</p>
+            </div>
+            ))}
           </div>
         </div>
       )}
