@@ -1,33 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { db } from "../firebase";
 import { query, where, getDocs, collection } from "firebase/firestore";
 
-export function SearchBar({ handleStartChat }) {
+export function SearchBar({ handleStartChat, users }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState(null);
 
   const handleSearch = async () => {
     if (searchTerm.trim() === "") return;
 
-    // Create a query that filters documents based on their email or username field
     const emailQuery = query(collection(db, "users"), where("email", "==", searchTerm));
     const usernameQuery = query(collection(db, "users"), where("username", "==", searchTerm));
 
-    // Get the query results
-    const querySnapshotEmail = await getDocs(emailQuery);
-    const querySnapshotUsername = await getDocs(usernameQuery);
+    try {
+      const [emailResults, usernameResults] = await Promise.all([
+        getDocs(emailQuery),
+        getDocs(usernameQuery),
+      ]);
 
-    if (!querySnapshotEmail.empty) {
-      // If there are any results, update the state with the data
-      const userData = querySnapshotEmail.docs.map((doc) => doc.data())[0];
-      handleStartChat(userData); // Start a chat with the selected user
-      localStorage.setItem("name", userData.username);
-    } else if (!querySnapshotUsername.empty) {
-      // If the username matches, you can handle it similarly
-      // ...
-    } else {
-      // If there are no results, display an error message
-      setData("No results found!");
+      let selectedUser = null;
+
+      if (!emailResults.empty) {
+        selectedUser = emailResults.docs[0].data();
+      } else if (!usernameResults.empty) {
+        selectedUser = usernameResults.docs[0].data();
+      } else {
+        setData("No results found!");
+      }
+
+      if (selectedUser) {
+        handleStartChat(selectedUser);
+        localStorage.setItem("selectedUser", JSON.stringify(selectedUser));
+      }
+    } catch (error) {
+      console.error("Error searching users:", error);
     }
   };
 
@@ -37,11 +43,10 @@ export function SearchBar({ handleStartChat }) {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search by Email"
+        placeholder="Search by Email or Username"
       />
       <button onClick={handleSearch}>Search</button>
       {data && <div>{data}</div>}
     </div>
   );
 }
-

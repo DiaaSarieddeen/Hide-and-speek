@@ -1,98 +1,137 @@
-// Import React and necessary Firebase libraries
+// Import necessary dependencies from React and Firebase
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "../firebase"; // Import Firebase authentication and Firestore database
 import {
   collection,
   addDoc,
   serverTimestamp,
   onSnapshot,
   query,
-  orderBy, // Add this line
-} from "firebase/firestore";
+  orderBy,
+  getDocs,
+  where
+} from "firebase/firestore"; // Import Firestore functions for querying and data manipulation
+import "./Homepage.css"; // Import a CSS file for styling
+import { SearchBar } from "./SearchBar"; // Import a component named SearchBar
 
-// Import the SearchBar component
-import { SearchBar } from "./SearchBar";
-
+// Define a functional component named Homepage
 export const Homepage = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  // Define various pieces of state using the useState hook
+  const [messages, setMessages] = useState([]); // State for chat messages
+  const [newMessage, setNewMessage] = useState(""); // State for the new message input
+  const [selectedUser, setSelectedUser] = useState(JSON.parse(localStorage.getItem("selectedUser"))); // State for the selected user
+  const [users, setUsers] = useState([]); // State for the list of users
+
+  // Reference to the 'messages' collection in Firestore
   const messagesRef = collection(db, "messages");
 
+  // useEffect hook to subscribe to changes in the 'messages' collection
   useEffect(() => {
-    // Set up Firebase Realtime Database or Firestore listener here
+    if (!selectedUser) return; // If no user is selected, do nothing
+
+    // Subscribe to changes in the 'messages' collection with specific conditions
     const unsubscribe = onSnapshot(
-      query(messagesRef, orderBy("createdAt")), // Use orderBy here
+      query(
+        messagesRef,
+        where("selectedUser", "==", selectedUser.username), // Filter messages by selected user
+        orderBy("createdAt") // Order messages by their creation timestamp
+      ),
       (snapshot) => {
-        let messages = [];
-        snapshot.forEach((doc) => {
-          messages.push({ ...doc.data(), id: doc.id });
-        });
-        setMessages(messages);
+        // Process the snapshot and update the 'messages' state
+        const messagesData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMessages(messagesData);
       }
     );
 
-    return () => unsubscribe(); // Cleanup the listener when the component unmounts
-  }, [messagesRef]);
+    return () => unsubscribe(); // Cleanup function to unsubscribe from Firestore changes
+  }, [selectedUser]); // Run this effect when 'selectedUser' changes
 
+  // useEffect hook to fetch a list of users from Firestore
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersData = usersSnapshot.docs.map((doc) => doc.data());
+        setUsers(usersData); // Update the 'users' state with fetched data
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers(); // Call the function to fetch users when the component mounts
+  }, []); // Run this effect only once when the component mounts
+
+  // Function to handle the submission of a new message
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (newMessage === "") return;
+    if (newMessage.trim() === "") return; // If the message is empty, do nothing
+
+    // Add a new message document to the 'messages' collection
     await addDoc(messagesRef, {
       text: newMessage,
-      createdAt: serverTimestamp(),
-      user: auth.currentUser.displayName,
-      selectedUser, // Use the selectedUser here
+      createdAt: serverTimestamp(), // Use Firestore server timestamp for message creation time
+      user: auth.currentUser.displayName, // Get the current user's display name
+      selectedUser: selectedUser.username, // Associate the message with the selected user
     });
 
-    setNewMessage("");
+    setNewMessage(""); // Clear the new message input field
   };
 
+  // Function to handle starting a chat with a user
   const handleStartChat = (user) => {
-    setSelectedUser(user);
+    setSelectedUser(user); // Set the selected user in state
+    localStorage.setItem("selectedUser", JSON.stringify(user)); // Store the selected user in local storage
   };
 
+  // Render the user interface
   return (
     <div className="chat-app">
       <div className="header">
         <h1>Welcome to: {selectedUser ? selectedUser.username : ""}</h1>
       </div>
-      
       {!selectedUser ? (
+        // Render the user list and search bar when no user is selected
         <div>
-          <SearchBar handleStartChat={handleStartChat} />
+          <SearchBar handleStartChat={handleStartChat} users={users} />
           <div className="user-list">
-            {/* Render a list of users from your database */}
-            {/* Display a list of users here */}
+            {users.map((user) => (
+              <div
+                key={user.id}
+                onClick={() => handleStartChat(user)} // Call handleStartChat when a user is clicked
+              >
+                {user.username}
+              </div>
+            ))}
           </div>
-          <div className="messages">
-        {/* Render messages here */}
-        {messages.map((message) => (
-          <div key={message.id} className="message">
-            <span className="user">{message.user}:</span> {message.text}
-          </div>
-        ))}
-      </div>
         </div>
       ) : (
-        <div className="chat-interface">
-          {/* Render the chat interface here */}
-          {/* You can use selectedUser to display the chat interface */}
+        // Render the chat interface when a user is selected
+        <div>
+          <button onClick={() => setSelectedUser(null)}>Back</button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message..."
+            />
+            <button type="submit">Send</button>
+          </form>
+          <div className="messages">
+            {messages.map((message) => (
+              <div key={message.id}>
+                <h4>{message.user}</h4>
+                <p>{message.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
-      <form onSubmit={handleSubmit} className="new-message-form">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(event) => setNewMessage(event.target.value)}
-          className="new-message-input"
-          placeholder="Type your message here..."
-        />
-        <button type="submit" className="send-button">
-          Send
-        </button>
-      </form>
     </div>
   );
 };
