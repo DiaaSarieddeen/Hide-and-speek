@@ -48,7 +48,7 @@ export const Profile = () => {
       // Save all the profile data to Firestore
       const userDocRef = doc(db, 'users',name);
       const updateData = {
-        name,
+        username:name,
         title,
         description,
         field,

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { db } from "../firebase";
 import { query, where, getDocs, collection } from "firebase/firestore";
+import "./SearchBar.css"
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import { ManageSearch, Margin } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 export function SearchBar({ handleStartChat, users }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,13 +44,24 @@ export function SearchBar({ handleStartChat, users }) {
 
   return (
     <div>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search by Email or Username"
-      />
-      <button onClick={handleSearch}>Search</button>
+     <TextField
+     fullWidth
+  type="text"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  placeholder="Search by Email or Username"
+  id="Search"
+  label="Search"
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <ManageSearch sx={{marginBottom:'12px',width:"2rem",height:"2rem"}} />
+      </InputAdornment>
+    ),
+  }}
+  variant="standard"
+/>
+      <Button onClick={handleSearch} id="srh_button">Search</Button>
       {data && <div>{data}</div>}
     </div>
   );

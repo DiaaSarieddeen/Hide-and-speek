@@ -13,7 +13,10 @@ import {
 } from "firebase/firestore";
 import "./Homepage.css"; 
 import { SearchBar } from "./SearchBar"; 
-
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from '@mui/material';
+import { TextField,InputAdornment,Button} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import './SearchBar.css'
 
 export const Homepage = () => {
 
@@ -30,13 +33,13 @@ export const Homepage = () => {
     if (!selectedUser) return; // If no user is selected, do nothing
   
     // Check if auth.currentUser is not null
-    if (auth.currentUser) {
+    if (auth.currentUser && auth.currentUser.displayName) {
       const unsubscribe = onSnapshot(
         query(
           messagesRef,
           // Filter by both sender and receiver
-          where("sender", "in", [auth.currentUser.displayName, selectedUser.username]),
-          where("receiver", "in", [auth.currentUser.displayName, selectedUser.username]),
+          where("sender", "in", [auth.currentUser.displayName, selectedUser?.username]),
+          where("receiver", "in", [auth.currentUser.displayName, selectedUser?.username]),
           orderBy("createdAt")
         ),
         (snapshot) => {
@@ -52,6 +55,7 @@ export const Homepage = () => {
       return () => unsubscribe(); // Cleanup function to unsubscribe from Firestore changes
     }
   }, [selectedUser]); // Run this effect when 'selectedUser' changes
+  
   
 
   useEffect(() => {
@@ -104,48 +108,136 @@ export const Homepage = () => {
  
   return (
     <div className="chat-app">
-      <div className="header">
-        <h1>Welcome to: {selectedUser ? selectedUser.username : ""}</h1>
-      </div>
+      <div className="header" style={{display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+}}>
+      {selectedUser ? (
+        <>
+          <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{marginTop:'1rem',marginRight:"1rem"}} />  
+          <h1>{selectedUser.username}</h1>
+        </>
+      ) : (
+        <h1>Welcome to Hide&Speek</h1>
+      )}
+    </div>
       {!selectedUser ? (
    
         <div>
           <SearchBar handleStartChat={handleStartChat} users={users} />
-          <div className="user-list">
-                    {users.map((user) => (
-            <div
-              key={user.id} // Add a unique key prop here
-              onClick={() => handleStartChat(user)}
+          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+  {users.map((user) => (
+    <ListItem
+      key={user.id} // Add a unique key prop here
+      onClick={() => handleStartChat(user)}
+      alignItems="flex-start"
+      button
+    >
+      <ListItemAvatar>
+        <Avatar alt={user.username} src={user.profilePic} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={user.username}
+        secondary={
+          <React.Fragment>
+            <Typography
+              sx={{ display: 'inline' }}
+              component="span"
+              variant="body2"
+              color="text.primary"
             >
-              {user.username}
-            </div>
-          ))}
+              {user.title}
+            </Typography>
+          </React.Fragment>
+        }
+      />
+    </ListItem>
+  ))}
+</List>
 
-          </div>
         </div>
       ) : (
 
         <div>
-          <button onClick={() => setSelectedUser(null)}>Back</button>
+          <Button onClick={() => setSelectedUser(null)} id="srh_button">Back</Button>
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-            />
-            <button type="submit">Send</button>
+          <TextField
+     fullWidth
+  type="text"
+  value={newMessage}
+  onChange={(e) => setNewMessage(e.target.value)}
+  placeholder="Type your message..."
+  id="Search"
+  label="Search"
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="end">
+       <SendIcon sx={{marginBottom:'12px',width:"2rem",height:"2rem",}} />
+      </InputAdornment>
+    ),
+  }}
+  variant="standard"
+/>
+            <Button id="srh_button" type="submit">Send</Button>
           </form>
           <div className="messages">
-          {messages.map((message) => (
-            <div key={message.id}>
-              <h4>{message.sender === auth.currentUser.displayName ? 'You' : message.sender}</h4>
-              <p>{message.text}</p>
-            </div>
-            ))}
-          </div>
+          <List>
+  {messages.map((message) => (
+    <ListItem key={message.id}>
+      <ListItemText
+        primary={
+          <Typography variant="h6" component="div">
+            {message.sender === auth.currentUser.displayName ? 'You' : message.sender}
+          </Typography>
+        }
+        secondary={
+          <>
+            <Typography variant="body2" color="textSecondary">
+              {new Date(message.timestamp?.toDate()).toUTCString()}
+            </Typography>
+            <Typography variant="body1">
+              {message.text}
+            </Typography>
+          </>
+        }
+      />
+    </ListItem>
+  ))}
+</List>
+</div>
         </div>
       )}
     </div>
   );
 };
+
+
+/*
+<TextField
+     fullWidth
+  type="text"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  placeholder="Search by Email or Username"
+  id="Search"
+  label="Search"
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <ManageSearch sx={{marginBottom:'12px',width:"2rem",height:"2rem"}} />
+      </InputAdornment>
+    ),
+  }}
+  variant="standard"
+/>
+
+
+
+<input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message..."
+            />
+*/ 
