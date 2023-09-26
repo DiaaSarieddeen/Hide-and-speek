@@ -117,6 +117,7 @@ export const Homepage = () => {
         <>
           <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{marginTop:'1rem',marginRight:"1rem"}} />  
           <h1>{selectedUser.username}</h1>
+          <h3>{selectedUser.status}</h3>
         </>
       ) : (
         <h1>Welcome to Hide&Speek</h1>
@@ -148,6 +149,7 @@ export const Homepage = () => {
               color="text.primary"
             >
               {user.title}
+              {user.status}
             </Typography>
           </React.Fragment>
         }
@@ -194,7 +196,16 @@ export const Homepage = () => {
         secondary={
           <>
             <Typography variant="body2" color="textSecondary">
-              {new Date(message.timestamp?.toDate()).toUTCString()}
+            {message.createdAt && message.createdAt.toDate().toLocaleString('en-US', {
+  weekday: 'short',
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: true,
+})}
+
             </Typography>
             <Typography variant="body1">
               {message.text}
@@ -213,31 +224,3 @@ export const Homepage = () => {
 };
 
 
-/*
-<TextField
-     fullWidth
-  type="text"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  placeholder="Search by Email or Username"
-  id="Search"
-  label="Search"
-  InputProps={{
-    startAdornment: (
-      <InputAdornment position="start">
-        <ManageSearch sx={{marginBottom:'12px',width:"2rem",height:"2rem"}} />
-      </InputAdornment>
-    ),
-  }}
-  variant="standard"
-/>
-
-
-
-<input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-            />
-*/ 

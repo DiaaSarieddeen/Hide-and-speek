@@ -1,39 +1,43 @@
 import { auth, provider, db } from '../firebase';
-import { signInWithPopup } from 'firebase/auth';
-import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'; // Corrected import
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'; 
 
-export const signInWithGoogle = (navigate) => {
-  signInWithPopup(auth, provider)
-    .then(async (result) => {
-      console.log(result);
-      const name = result.user.displayName;
-      const email = result.user.email;
-      const profilePic = result.user.photoURL;
+export const signInWithGoogle = async (navigate) => {
+  try {
+    const result = await signInWithPopup(auth, provider);
 
-      localStorage.setItem('name', name);
-      localStorage.setItem('email', email);
-      localStorage.setItem('profilePic', profilePic);
+    console.log(result);
+    const name = result.user.displayName;
+    const email = result.user.email;
+    const profilePic = result.user.photoURL;
 
-      // Create a username-based document ID
-      //const username = name.replace(/\s/g, ""); // Remove spaces for the username
-      const docRef = doc(db, "users", name);
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('profilePic', profilePic);
 
-      // Check if a document with the username already exists in collection "users"
-      const docSnap = await getDoc(docRef);
+    // Create a username-based document ID
+    //const username = name.replace(/\s/g, ""); // Remove spaces for the username
+    const docRef = doc(db, "users", name);
 
-      if (!docSnap.exists()) {
-        // Add a new document in collection "users" with the username as the document ID
-        await setDoc(docRef, {
-          username: name,
-          email: email,
-          online: true,
-          profilePic:profilePic
-        });
-      }
+    // Check if a document with the username already exists in collection "users"
+    const docSnap = await getDoc(docRef);
 
-      navigate("/chat"); // Redirect to "/Chat" page
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    if (!docSnap.exists()) {
+      // Add a new document in collection "users" with the username as the document ID
+      await setDoc(docRef, {
+        username: name,
+        email: email,
+        status: "Online",
+        profilePic: profilePic
+      });
+    } else {
+      await updateDoc(docRef, {
+        status: "Online"
+      });
+    }
+
+    navigate("/chat"); // Redirect to "/Chat" page
+  } catch (error) {
+    console.log("Error signing in with Google:", error);
+  }
 };

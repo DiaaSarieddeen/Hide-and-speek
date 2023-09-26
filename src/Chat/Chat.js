@@ -1,22 +1,24 @@
-import React from "react";
-import { SearchBar } from "./SearchBar";
+import React, { useState } from "react";
 import { Homepage } from "./Homepage";
 import { Profile } from "./Profile";
+import { SignOut } from "../Authentication/SignOut";
 import './Chat.css'
 
-export const Chat = () => (
-  <div className="chat-container">
-    <div className="profile-container">
-      <Profile />
-    </div>
-    <div className="homepage-container">
-      <Homepage />
-    </div>
-  </div>
-);
+export const Chat = () => {
+  const [isUserSignedIn, setIsUserSignedIn] = useState(true); // Set this based on the user's sign-in status
+  const [userName, setUserName] = useState(""); // Add this state to store the user's name
 
-/*
- <h1>{localStorage.getItem("name")}</h1>
-    <h1>{localStorage.getItem("email")}</h1>
-    <img src={localStorage.getItem("profilePic")} />
-*/
+  // Other code...
+
+  return (
+    <div className="chat-container">
+      <div className="profile-container">
+        <Profile />
+      </div>
+      <div className="homepage-container">
+        <Homepage />
+       
+      </div>
+    </div>
+  );
+};
