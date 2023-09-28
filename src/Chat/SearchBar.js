@@ -51,7 +51,6 @@ export function SearchBar({ handleStartChat, users }) {
   onChange={(e) => setSearchTerm(e.target.value)}
   placeholder="Search by Email or Username"
   id="Search"
-  label="Search"
   InputProps={{
     startAdornment: (
       <InputAdornment position="start">

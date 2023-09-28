@@ -110,14 +110,23 @@ export const Homepage = () => {
     <div className="chat-app">
       <div className="header" style={{display: "flex",
     justifyContent: "center",
-    flexDirection: "row",
+    flexDirection: "column",
     flexWrap: "nowrap",
 }}>
       {selectedUser ? (
         <>
-          <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{marginTop:'1rem',marginRight:"1rem"}} />  
+          
+          
+          <div className="Username">
+          <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{marginTop:'1rem',}} /> 
           <h1>{selectedUser.username}</h1>
-          <h3>{selectedUser.status}</h3>
+          
+          </div>
+          <div className="Status">
+          <h3 style={{marginRight: "11px"}}>{selectedUser.status}</h3>
+          </div>
+         
+         
         </>
       ) : (
         <h1>Welcome to Hide&Speek</h1>
@@ -134,21 +143,33 @@ export const Homepage = () => {
       onClick={() => handleStartChat(user)}
       alignItems="flex-start"
       button
+      
     >
       <ListItemAvatar>
         <Avatar alt={user.username} src={user.profilePic} />
       </ListItemAvatar>
       <ListItemText
-        primary={user.username}
+        primary={<React.Fragment>
+          <Typography sx={{fontFamily: 'Rubik'}}>
+            {user.username}
+          </Typography>
+        </React.Fragment>}
         secondary={
           <React.Fragment>
             <Typography
-              sx={{ display: 'inline' }}
+              sx={{ display: 'inline' , fontFamily: 'Rubik'}}
               component="span"
               variant="body2"
               color="text.primary"
             >
               {user.title}
+            </Typography>
+            <Typography
+              sx={{ display: 'flex' , justifyContent:"left", fontStyle: "italic", fontFamily: 'Rubik'}}
+              component="span"
+              variant="body2"
+              color="text.primary"
+            >
               {user.status}
             </Typography>
           </React.Fragment>
@@ -175,7 +196,7 @@ export const Homepage = () => {
   InputProps={{
     startAdornment: (
       <InputAdornment position="end">
-       <SendIcon sx={{marginBottom:'12px',width:"2rem",height:"2rem",}} />
+       <SendIcon sx={{marginBottom:'12px',width:"2rem",height:"2rem"}} />
       </InputAdornment>
     ),
   }}

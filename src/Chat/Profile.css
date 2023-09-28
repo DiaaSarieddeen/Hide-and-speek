@@ -1,8 +1,20 @@
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
+ background: #ffffff;
+ border-radius: 10px;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+ max-width: 300px;
+ font-family: "Comic Sans MS Bold Italic";
+ margin: auto;
+ text-align: center;
+ -webkit-border-radius: 10px;
+ -moz-border-radius: 10px;
+ -ms-border-radius: 10px;
+ -o-border-radius: 10px;
+ font-family: 'Rubik', sans-serif;
+}
+
+.ProfPic{
+  margin-top: 20px;
 }
 
 .title {
@@ -19,7 +31,6 @@ button {
   background-color: #000;
   text-align: center;
   cursor: pointer;
-  width: 100%;
   font-size: 18px;
 }
 
@@ -31,4 +42,56 @@ a {
 
 button:hover, a:hover {
   opacity: 0.7;
+}
+.a{
+  margin-bottom: 20px; /* Adds space below the element */
+  padding-top: 10px;   /* Adds space inside the element */
+  line-height: 1.5;    /* Adjusts line spacing within the element */
+}
+.Edit {
+  padding: 10px 125px;
+  margin-top: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.Save {
+  padding: 10px 125px;
+  margin-top: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+
+
+.SignOut {
+  padding: 10px 106px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.icons{
+  width: 40%;
+  margin-left: 30%;
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+
+.ChooseFile{
+  margin-left: 18%;
+  margin-top: 10px;
 }

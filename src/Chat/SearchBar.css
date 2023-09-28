@@ -5,10 +5,13 @@
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  font-family: 'Rubik',san;
+
 }
 #srh_button{
 color: rgb(83, 83, 83);
 margin-top: 10px;
+font-family: 'Rubik',san;
 }
 #srh_button:hover{
 color: rgb(99, 99, 99); 

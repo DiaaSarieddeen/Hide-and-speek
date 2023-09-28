@@ -12,3 +12,7 @@
   flex: 1; /* Take up 50% of the container width */
   padding: 20px; /* Add padding as needed */
 }
+body{
+  background: #007bff;
+  font-family: 'Rubik', sans-serif;
+}

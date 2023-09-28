@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Homepage } from "./Homepage";
 import { Profile } from "./Profile";
-import { SignOut } from "../Authentication/SignOut";
 import './Chat.css'
 
 export const Chat = () => {
@@ -17,7 +16,6 @@ export const Chat = () => {
       </div>
       <div className="homepage-container">
         <Homepage />
-       
       </div>
     </div>
   );

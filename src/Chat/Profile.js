@@ -115,8 +115,8 @@ export const Profile = () => {
 
   return (
     <div className="card">
-      <img src={profilePic} alt="John" style={{ width: "100%" }} />
-      <input
+      <img className="ProfPic" src={profilePic} alt="John" style={{ borderRadius:"10px"}} />
+      <input className="ChooseFile"
         type="file"
         accept="image/*"
         onChange={handleProfilePicChange}
@@ -137,18 +137,20 @@ export const Profile = () => {
         <p>Description: {description}</p>
       )}
 
+      <div className="icons">
       <a href="#"><i className="fa fa-instagram"></i></a>
       <a href="#"><i className="fa fa-twitter"></i></a>
       <a href="#"><i className="fa fa-linkedin"></i></a>
       <a href="#"><i className="fa fa-facebook"></i></a>
+      </div>
 
       {isEditing ? (
-        <button onClick={handleSave}>Save</button>
+        <button className="Save" onClick={handleSave}>Save</button>
       ) : (
-        <button onClick={handleEdit}>Edit</button>
+        <button className="Edit" onClick={handleEdit}>Edit</button>
       )}
       <div>
-      <button onClick={handleSignOut}>Sign Out</button>
+      <button className="SignOut" onClick={handleSignOut}>Sign Out</button>
       </div>
     </div>
   );
