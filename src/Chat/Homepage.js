@@ -123,7 +123,7 @@ export const Homepage = () => {
           
           </div>
           <div className="Status">
-          <h3 style={{marginRight: "11px"}}>{selectedUser.status}</h3>
+          <h3 style={{marginRight: "11px",color:selectedUser.status=='Online' ? "#6BCB77" : "#7D7C7C"}}>{selectedUser.status}</h3>
           </div>
          
          
