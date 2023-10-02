@@ -77,3 +77,10 @@
   justify-content: space-around;
   margin-right: 15rem;
 }
+.ChatTab{
+  width: 100%;
+  text-wrap: wrap;
+  margin: inherit;
+  margin-top: 4rem;
+  margin-left: -400px;
+}

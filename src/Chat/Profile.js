@@ -4,6 +4,7 @@ import { db, storage,auth } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import "font-awesome/css/font-awesome.min.css";
 import { useNavigate } from "react-router-dom";
+import { TextField,TextareaAutosize } from "@mui/material";
 
 export const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -122,17 +123,17 @@ export const Profile = () => {
         onChange={handleProfilePicChange}
         disabled={!isEditing}
       />
-      <h1>{isEditing ? <input type="text" value={name} onChange={(e) => setName(e.target.value)} /> : name}</h1>
-      <p className="title">{isEditing ? <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /> : title}</p>
+      <h1>{isEditing ? <TextField value={name} onChange={(e) => setName(e.target.value)} /> : name}</h1>
+      <p className="title">{isEditing ? <TextField value={title} onChange={(e) => setTitle(e.target.value)} /> : title}</p>
 
       {isEditing ? (
-        <input type="text" value={field} onChange={(e) => setField(e.target.value)} />
+        <TextField value={field} onChange={(e) => setField(e.target.value)} />
       ) : (
         <p>Field: {field}</p>
       )}
 
       {isEditing ? (
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+        <TextareaAutosize value={description} sx={{marginBottom:"3px"}} onChange={(e) => setDescription(e.target.value)}></TextareaAutosize>
       ) : (
         <p>Description: {description}</p>
       )}
