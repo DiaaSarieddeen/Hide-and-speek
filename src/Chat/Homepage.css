@@ -31,6 +31,9 @@
   border-bottom: 1px solid #ccc;
   white-space: nowrap;
   /* margin-bottom: 10px; */
+  display: flex;
+  justify-content: space-between; /* Align content horizontally */
+  align-items: center; /* Align content vertically */
 }
 
 .chat-container {

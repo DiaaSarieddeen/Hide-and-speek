@@ -137,16 +137,17 @@ export const Homepage = () => {
             <>
               <div className="Username">
                 <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{ marginTop: '1.3rem',marginRight:"1rem" }} />
-                <h1>{selectedUser.username}</h1>
-              </div>
-              <div className="Status">
-                <h3 style={{ marginRight: "20xp", color: selectedUser.status === 'Online' ? "#6BCB77" : "#7D7C7C" }}>{selectedUser.status}</h3>
+                  <div>
+                    <h1>{selectedUser.username}</h1>
+                    <h3 style={{ marginRight: "20px", color: selectedUser.status === 'Online' ? "#6BCB77" : "#7D7C7C" }}>{selectedUser.status}</h3>
+                  </div>
               </div>
             </>
-          ) : (
-            <h1>Welcome to Hide&Speek</h1>
-          )}
+      ) : (
+      <h1>Welcome to Hide&Speek</h1>
+      )}
         </div>
+
         {!selectedUser ? (
           <div className="empty-chat">Select a user to start a chat</div>
         ) : (
