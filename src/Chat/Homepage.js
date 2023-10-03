@@ -90,10 +90,11 @@ export const Homepage = () => {
   };
 
   return (
+    <>
+    <SearchBar handleStartChat={handleStartChat} users={users} />
     <div className="chat-app">
-      <div className="sidebar">
-        <SearchBar handleStartChat={handleStartChat} users={users} />
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      {/* <div className="sidebar"> */}
+        {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
           {users.map((user) => (
             <ListItem
               key={user.id}
@@ -129,8 +130,8 @@ export const Homepage = () => {
               />
             </ListItem>
           ))}
-        </List>
-      </div>
+        </List> */}
+      {/* </div> */}
       <div className="chat-container">
         <div className="header">
           {selectedUser ? (
@@ -208,5 +209,6 @@ export const Homepage = () => {
         )}
       </div>
     </div>
+    </>
   );
 };

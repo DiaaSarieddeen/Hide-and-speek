@@ -16,3 +16,19 @@ font-family: 'Rubik',san;
 #srh_button:hover{
 color: rgb(99, 99, 99); 
 }
+.sidebar{
+  width: 262px; /* Fixed width for the sidebar */
+  
+  flex: 0 0 auto; /* Prevent stretching */
+  border-right: 1px solid #ccc;
+  padding: 1rem;
+  margin-left: -200px;
+  background-color: #D2E0FB;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  font-family: 'Rubik', sans-serif;
+  margin-left: -360px;
+}

@@ -6,10 +6,13 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ManageSearch, Margin } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import { useEffect } from "react";
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from '@mui/material';
 
-export function SearchBar({ handleStartChat, users }) {
+export function SearchBar({ handleStartChat}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState(null);
+  const [users, setUsers] = useState([])
 
   const handleSearch = async () => {
     if (searchTerm.trim() === "") return;
@@ -42,8 +45,24 @@ export function SearchBar({ handleStartChat, users }) {
     }
   };
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersData = usersSnapshot.docs.map((doc) => doc.data());
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  
   return (
-    <div>
+    <div className="sidebar">
      <TextField
      fullWidth
   type="text"
@@ -62,6 +81,43 @@ export function SearchBar({ handleStartChat, users }) {
 />
       <Button onClick={handleSearch} id="srh_button">Search</Button>
       {data && <div>{data}</div>}
+      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          {users.map((user) => (
+            <ListItem
+              key={user.id}
+              onClick={() => handleStartChat(user)}
+              alignItems="flex-start"
+              button
+            >
+              <ListItemAvatar>
+                <Avatar alt={user.username} src={user.profilePic} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<React.Fragment><Typography sx={{ fontFamily: 'Rubik' }}>{user.username}</Typography></React.Fragment>}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      sx={{ display: 'inline', fontFamily: 'Rubik' }}
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      {user.title}
+                    </Typography>
+                    <Typography
+                      sx={{ display: 'flex', justifyContent: "left", fontStyle: "italic", fontFamily: 'Rubik' }}
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      {user.status}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
     </div>
   );
 }
