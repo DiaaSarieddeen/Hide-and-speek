@@ -4,7 +4,6 @@
  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
  max-width: 300px;
  font-family: "Comic Sans MS Bold Italic";
- margin: auto;
  text-align: center;
  -webkit-border-radius: 10px;
  -moz-border-radius: 10px;
@@ -75,12 +74,12 @@ button:hover, a:hover {
   margin-top: 7px;
   margin-bottom: 7px;
   border-radius: 10px;
+  white-space: nowrap;
+  overflow: hidden;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .icons{

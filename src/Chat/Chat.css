@@ -5,12 +5,15 @@
 
 .profile-container {
   flex: 1; /* Take up 50% of the container width */
-  padding: 20px; /* Add padding as needed */
+  margin-top: 5%;
+  margin-left:100px ;
 }
 
 .homepage-container {
   flex: 1; /* Take up 50% of the container width */
   padding: 20px; /* Add padding as needed */
+  margin-left: 40%;
+  margin-top: -40%;
 }
 body{
   background: #007bff;
