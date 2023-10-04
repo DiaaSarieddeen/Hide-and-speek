@@ -10,10 +10,11 @@
  -ms-border-radius: 10px;
  -o-border-radius: 10px;
  font-family: 'Rubik', sans-serif;
+ padding-top: 10px;
 }
 
 .ProfPic{
-  margin-top: 20px;
+
 }
 
 .title {

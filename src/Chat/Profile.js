@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import "font-awesome/css/font-awesome.min.css";
 import { useNavigate } from "react-router-dom";
 import { TextField,TextareaAutosize } from "@mui/material";
+import {Avatar} from "@mui/material";
 
 export const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -116,7 +117,7 @@ export const Profile = () => {
 
   return (
     <div className="card">
-      <img className="ProfPic" src={profilePic} alt="John" style={{ borderRadius:"10px"}} />
+      <Avatar className="ProfPic" src={profilePic} alt="John" sx={{width:"40%",height:"40%",marginLeft:"30%"}}/>
       <input className="ChooseFile"
         type="file"
         accept="image/*"
