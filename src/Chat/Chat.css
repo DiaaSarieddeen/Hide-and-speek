@@ -1,4 +1,5 @@
 /* Sample CSS for positioning the containers */
+
 .chat-container {
   display: flex; /* Display components side by side */
 }
@@ -6,13 +7,17 @@
 .profile-container {
   flex: 1; /* Take up 50% of the container width */
   margin-top: 5%;
+  margin-left: 25px;
+  overflow: hidden;
+  width: 100%; 
+  height: 100%;
 }
 
 .homepage-container {
   flex: 1; /* Take up 50% of the container width */
   padding: 20px; /* Add padding as needed */
-  margin-left: 41pc;
-  margin-top: -40%;
+  margin-right: -100px;
+  margin-bottom: 100px;
 }
 body{
   background: #007bff;
