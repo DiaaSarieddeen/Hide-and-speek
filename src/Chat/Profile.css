@@ -1,5 +1,6 @@
 .card {
- background: #ffffff;
+border-right: 1px solid #0075dd;
+background-color: #0075da;
  border-radius: 10px;
  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
  max-width: 300px;
@@ -11,6 +12,7 @@
  -o-border-radius: 10px;
  font-family: 'Rubik', sans-serif;
  padding-top: 10px;
+ color: white;
 }
 
 .ProfPic{
@@ -18,7 +20,7 @@
 }
 
 .title {
-  color: grey;
+  color: rgb(0, 2, 95);
   font-size: 18px;
 }
 
@@ -56,6 +58,7 @@ button:hover, a:hover {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  background-color: #052b70;
 }
 
 .Save {
@@ -66,6 +69,7 @@ button:hover, a:hover {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  background-color: #052b70;
 }
 
 
@@ -81,6 +85,7 @@ button:hover, a:hover {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  background-color: #052b70;
 }
 
 .icons{
@@ -95,3 +100,4 @@ button:hover, a:hover {
   margin-left: 18%;
   margin-top: 10px;
 }
+i{color: white;}

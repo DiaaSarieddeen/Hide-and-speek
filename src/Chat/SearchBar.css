@@ -6,24 +6,25 @@
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   font-family: 'Rubik',san;
-
+  color: white;
+  text-align: start;
 }
 #srh_button{
-color: rgb(83, 83, 83);
+color: rgb(255, 255, 255);
 margin-top: 10px;
 font-family: 'Rubik',san;
 }
 #srh_button:hover{
-color: rgb(99, 99, 99); 
+color: rgb(247, 247, 247); 
 }
 .sidebar{
   width: 262px; /* Fixed width for the sidebar */
-  
+
   flex: 0 0 auto; /* Prevent stretching */
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #0075dd;
   padding: 1rem;
   margin-left: -200px;
-  background-color: #D2E0FB;
+  background-color: #0075da;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -32,3 +33,4 @@ color: rgb(99, 99, 99);
   font-family: 'Rubik', sans-serif;
   margin-left: -360px;
 }
+

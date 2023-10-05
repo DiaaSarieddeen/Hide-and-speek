@@ -5,7 +5,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #D2E0FB;
+  border-right: 1px solid #0075dd;
+  background-color: #0075da;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -22,20 +23,19 @@
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  background-color: #D2E0FB;
+  border-right: 1px solid #0075dd;
+  background-color: #0075da;
   padding: 9px;
   border-bottom: 1px solid #ccc;
-  white-space: nowrap;
+  color: white !important;
   /* margin-bottom: 10px; */
 }
-
 .chat-container {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
   flex: 1; /* Allow it to take remaining space */
-  overflow-y: auto; /* Add vertical scrollbar if needed */
   /* flex: 1;
   overflow-y: auto; */
   align-items: center; /* Center content vertically */
@@ -46,6 +46,8 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow-y: scroll;
+  max-height: 300px;
 }
 
 .message {
@@ -90,6 +92,7 @@
   margin-right: 250px;
 }
 .ChatTab{
+  color: white;
   width: 80%;
   /* text-wrap: wrap; */
   /* margin: inherit; */

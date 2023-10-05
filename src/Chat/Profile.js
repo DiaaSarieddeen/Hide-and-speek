@@ -118,12 +118,12 @@ export const Profile = () => {
   return (
     <div className="card">
       <Avatar className="ProfPic" src={profilePic} alt="John" sx={{width:"40%",height:"40%",marginLeft:"30%"}}/>
-      <input className="ChooseFile"
+      {/* <input className="ChooseFile"
         type="file"
         accept="image/*"
         onChange={handleProfilePicChange}
         disabled={!isEditing}
-      />
+      /> */}
       <h1>{isEditing ? <TextField value={name} onChange={(e) => setName(e.target.value)} /> : name}</h1>
       <p className="title">{isEditing ? <TextField value={title} onChange={(e) => setTitle(e.target.value)} /> : title}</p>
 

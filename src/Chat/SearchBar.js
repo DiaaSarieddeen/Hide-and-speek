@@ -73,7 +73,7 @@ export function SearchBar({ handleStartChat}) {
   InputProps={{
     startAdornment: (
       <InputAdornment position="start">
-        <ManageSearch sx={{marginBottom:'12px',width:"2rem",height:"2rem"}} />
+        <ManageSearch sx={{marginBottom:'12px',width:"2rem",height:"2rem",color:"white"}} />
       </InputAdornment>
     ),
   }}
@@ -81,23 +81,24 @@ export function SearchBar({ handleStartChat}) {
 />
       <Button onClick={handleSearch} id="srh_button">Search</Button>
       {data && <div>{data}</div>}
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <List sx={{ width: '100%', maxWidth: 360,backgroundColor:"#000ec8",borderRadius:"10px"}}>
           {users.map((user) => (
             <ListItem
               key={user.id}
               onClick={() => handleStartChat(user)}
               alignItems="flex-start"
               button
+              sx={{borderBottom:"1px solid #9aa7f4", backgroundColor:"#000ec8 !important"}}
             >
               <ListItemAvatar>
                 <Avatar alt={user.username} src={user.profilePic} />
               </ListItemAvatar>
               <ListItemText
-                primary={<React.Fragment><Typography sx={{ fontFamily: 'Rubik' }}>{user.username}</Typography></React.Fragment>}
+                primary={<React.Fragment><Typography sx={{ fontFamily: 'Rubik',color:"white" }}>{user.username}</Typography></React.Fragment>}
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: 'inline', fontFamily: 'Rubik' }}
+                      sx={{ display: 'inline', fontFamily: 'Rubik' ,color:"#68f6fb"}}
                       component="span"
                       variant="body2"
                       color="text.primary"
@@ -105,7 +106,7 @@ export function SearchBar({ handleStartChat}) {
                       {user.title}
                     </Typography>
                     <Typography
-                      sx={{ display: 'flex', justifyContent: "left", fontStyle: "italic", fontFamily: 'Rubik' }}
+                      sx={{ display: 'flex', justifyContent: "left", fontStyle: "italic", fontFamily: 'Rubik',color: user.status === 'Online' ? "#00ee71" : "#eaeaea"}}
                       component="span"
                       variant="body2"
                       color="text.primary"

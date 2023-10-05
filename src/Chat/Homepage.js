@@ -93,45 +93,6 @@ export const Homepage = () => {
     <>
     <SearchBar handleStartChat={handleStartChat} users={users} />
     <div className="chat-app">
-      {/* <div className="sidebar"> */}
-        {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          {users.map((user) => (
-            <ListItem
-              key={user.id}
-              onClick={() => handleStartChat(user)}
-              alignItems="flex-start"
-              button
-            >
-              <ListItemAvatar>
-                <Avatar alt={user.username} src={user.profilePic} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={<React.Fragment><Typography sx={{ fontFamily: 'Rubik' }}>{user.username}</Typography></React.Fragment>}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline', fontFamily: 'Rubik' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {user.title}
-                    </Typography>
-                    <Typography
-                      sx={{ display: 'flex', justifyContent: "left", fontStyle: "italic", fontFamily: 'Rubik' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {user.status}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-          ))}
-        </List> */}
-      {/* </div> */}
       <div className="chat-container">
         <div className="header">
           {selectedUser ? (
@@ -140,7 +101,7 @@ export const Homepage = () => {
                 <Avatar alt={selectedUser.username} src={selectedUser.profilePic} style={{ marginTop: '1.3rem',marginRight:"1rem" }} />
                   <div>
                     <h1>{selectedUser.username}</h1>
-                    <h3 style={{ marginRight: "20px", color: selectedUser.status === 'Online' ? "#6BCB77" : "#7D7C7C" }}>{selectedUser.status}</h3>
+                    <h3 style={{ marginRight: "30px", color: selectedUser.status === 'Online' ? "#00ee71" : "#eaeaea"}}>{selectedUser.status}</h3>
                   </div>
               </div>
             </>
@@ -155,22 +116,15 @@ export const Homepage = () => {
           <div className="ChatTab">
             <form onSubmit={handleSubmit}>
               <TextField
+              sx={{marginTop:"5px"}}
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type your message..."
                 id="Search"
-                label="Search"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="end">
-                      <SendIcon sx={{ marginBottom: '12px', width: "2rem", height: "2rem" }} />
-                    </InputAdornment>
-                  ),
-                }}
                 variant="standard"
               />
-              <Button id="srh_button" type="submit">Send</Button>
+              <Button id="srh_button" type="submit"><SendIcon sx={{ width: "2rem", height: "2rem", color:"white"}} /></Button>
             </form>
             <div className="messages">
               <List>
@@ -184,7 +138,10 @@ export const Homepage = () => {
                       }
                       secondary={
                         <>
-                          <Typography variant="body2" color="textSecondary">
+                          <Typography variant="body2" style={{backgroundColor:"#e5f1f7",borderRadius:"10px",width:"fit-content", padding:"10px",color:"#979797",fontWeight:"700"}}>
+                            {message.text}
+                          </Typography>
+                          <Typography variant="body3" color="textSecondary" style={{fontSize:"smaller"}}>
                             {message.createdAt && message.createdAt.toDate().toLocaleString('en-US', {
                               weekday: 'short',
                               day: '2-digit',
@@ -194,9 +151,6 @@ export const Homepage = () => {
                               minute: '2-digit',
                               hour12: true,
                             })}
-                          </Typography>
-                          <Typography variant="body1">
-                            {message.text}
                           </Typography>
                         </>
                       }
